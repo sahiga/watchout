@@ -1,5 +1,9 @@
-/* your beautiful css styling goes here! */
+svg {
+  border: 2px solid blue;
+}
 
-/* Note: an asteroid image is included in this repo.
-Feel free to use it if you like. */
-
+.enemy {
+  background: url('pugNasteroid.png');
+  width: 200px;
+  height: 200px;
+}
