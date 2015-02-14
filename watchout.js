@@ -1,6 +1,6 @@
 var gameOptions = {
-  height: 450,
-  width: 700,
+  height: 600,
+  width: 850,
   nEnemies: 10,
   padding: 20
 };
@@ -18,7 +18,7 @@ var User = function(){
   this.zy = 0;
   this.oldX = 0;
   this.oldY = 0;
-  this.r = 25;
+  this.r = 50;
 };
 
 
@@ -31,7 +31,7 @@ var Enemy = function(id, x, y){
   this.zy = 0;
   this.oldX = 0;
   this.oldY = 0;
-  this.r = 25;
+  this.r = 50;
 };
 
 var createEnemies = function(){
@@ -60,28 +60,33 @@ var updateBestScoreDisplay = function() {
   document.getElementById('high').innerHTML = gameStats.bestScore.toString();
 };
 
-var updateCollisionsDisplay = function() {
-  document.getElementById('collisions').innerHTML = gameStats.collisions.toString();
-};
+// var updateCollisionsDisplay = function() {
+//   document.getElementById('collisions').innerHTML = gameStats.collisions.toString();
+// };
 
 // d3
-var gameBoard = d3.select('.gameboard').append('svg')
+var gameBoard = d3.select('.gameboard')
                       .attr('width', gameOptions.width)
                       .attr('height', gameOptions.height);
 
 var generateRandomPosition = function(dimension){
   if ( dimension === "width" ){
-    return Math.random() * gameOptions.width;
+    return Math.random() * ((gameOptions.width - 100) - 0);
   }
   if ( dimension === "height" ){
-    return Math.random() * gameOptions.height;
+    return Math.random() * ((gameOptions.height - 100) - 0);
   }
 };
 
 var drag = d3.behavior.drag()
   .origin(function(d) { return d; })
   .on('drag', function(d){
-    d3.select(this).attr('x', d.x = d3.event.x).attr('y', d.y = d3.event.y);
+    if (d3.event.x + 100 < gameOptions.width &&
+      d3.event.y + 100 < gameOptions.height &&
+      d3.event.x > 0 &&
+      d3.event.y > 0) {
+      d3.select(this).attr('x', d.x = d3.event.x).attr('y', d.y = d3.event.y);
+    }
   });
 
 var onCollision = function() {
@@ -92,7 +97,7 @@ var onCollision = function() {
   gameStats.score = 0;
   gameStats.collisions += 1;
   updateScoreDisplay();
-  updateCollisionsDisplay();
+  // updateCollisionsDisplay();
 };
 
 var checkCollision = function(user, enemy, collidedCallback) {
@@ -120,10 +125,6 @@ var tweenWithCollisionDetection = function(endData) {
     y: endData.y
   };
 
-  // console.log('enemy: ', enemy);
-  // console.log('startPos: ', startPos);
-  // console.log('endPos: ', endPos);
-
   return function(t) {
     checkCollision(user, enemy, onCollision);
 
@@ -148,14 +149,12 @@ var renderUser = function(userData){
       .attr('class', 'user')
       .attr('x', function(d) { return d.x; })
       .attr('y', function(d) { return d.y; })
-      .attr('zx', function(d) { return d.x + 25; })
-      .attr('zy', function(d) { return d.y + 25; })
+      .attr('zx', function(d) { return d.x + 50; })
+      .attr('zy', function(d) { return d.y + 50; })
       .attr('r', function(d) { return d.r; })
-      .attr('oldX', function(d) { return d.oldX; })
-      .attr('oldY', function(d) { return d.oldY; })
-      .attr('width', 50)
-      .attr('height', 50)
-      .attr('xlink:href', 'burger.png')
+      .attr('width', 100)
+      .attr('height', 100)
+      .attr('xlink:href', 'cookie.png')
       .call(drag);
 };
 
@@ -168,12 +167,6 @@ var renderEnemies = function(enemyData) {
   enemies
     .transition()
     .duration(1250)
-    .attr('oldX', function(d) {
-      d.oldX = d.x;
-    })
-    .attr('oldY', function(d) {
-      d.oldY = d.y;
-    })
     .attr("x", function(d) {
       d.x = generateRandomPosition("width");
       return d.x;
@@ -184,9 +177,6 @@ var renderEnemies = function(enemyData) {
     })
     .tween('custom', tweenWithCollisionDetection);
 
-
-    // pass in d.x and d.y as endData
-
   //create new enemies here:
   enemies.enter()
     .append('svg:image')
@@ -195,14 +185,12 @@ var renderEnemies = function(enemyData) {
       .attr('y', function(d) { return d.y; })
       .attr('x', function(d) { return d.x; })
       .attr('y', function(d) { return d.y; })
-      .attr('zx', function(d) { return d.x + 25; })
-      .attr('zy', function(d) { return d.y + 25; })
+      .attr('zx', function(d) { return d.x + 50; })
+      .attr('zy', function(d) { return d.y + 50; })
       .attr('r', function(d) { return d.r; })
-      .attr('oldX', function(d) { return d.oldX; })
-      .attr('oldY', function(d) { return d.oldY; })
-      .attr('width', 50)
-      .attr('height', 50)
-      .attr('xlink:href', 'asteroidpuppy.png')
+      .attr('width', 100)
+      .attr('height', 100)
+      .attr('xlink:href', 'cookie_monster.png')
 
 };
 
@@ -211,9 +199,7 @@ var increaseScore = function(){
   updateScoreDisplay();
 };
 
-
 var play = function() {
-
   var gameEnemies = createEnemies();
   var gameUser = createUser();
   renderEnemies(gameEnemies);

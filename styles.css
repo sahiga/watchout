@@ -1,13 +1,12 @@
 svg {
-  border: 2px solid blue;
+  background: url('pan.png');
+  background-size: contain;
 }
-
-/*.enemy {
-  background: url('pugNasteroid.png');
-  width: 200px;
-  height: 200px;
-}*/
 
 .player {
   cursor: pointer;
+}
+
+.enemy {
+
 }
