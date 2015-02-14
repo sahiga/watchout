@@ -64,34 +64,41 @@ var drag = d3.behavior.drag()
     d3.select(this).attr('x', d.x = d3.event.x).attr('y', d.y = d3.event.y);
   });
 
-var checkCollision = function(user, enemy, collidedCallback) {
-  var radiusSum = parseFloat(enemy.attr('r')) + user.r;
-  var xDiff = parseFloat(enemy.attr('zx')) - user.x;
-  var yDiff = parseFloat(enemy.attr('zy')) - user.y;
-  var separation = Math.sqrt( Math.pow(xDiff, 2) + Math.pow(yDiff, 2));
+var onCollision = function(user, enemy) {
 
+};
+
+var checkCollision = function(user, enemy, collidedCallback) {
+  var radiusSum = parseFloat(enemy.attr('r')) + parseFloat(user.attr('r'));
+  var xDiff = parseFloat(enemy.attr('zx')) - parseFloat(user.attr('x'));
+  var yDiff = parseFloat(enemy.attr('zy')) - parseFloat(user.attr('y'));
+  var separation = Math.sqrt( Math.pow(xDiff, 2) + Math.pow(yDiff, 2));
+  // console.log('radiusSum: ', radiusSum);
+  // console.log('xDiff: ', xDiff);
+  // console.log('yDiff: ', yDiff);
+  // console.log('separation: ', separation);
   if (separation < radiusSum) {
-    collidedCallBack(user, enemy);
+    collidedCallback(user, enemy);
   }
 };
 
-var onCollision = function() {
-  console.log('collision has been detected!!');
-};
-
-var tweenWithCollisionDetection = function(startData, endData) {
+var tweenWithCollisionDetection = function(endData) {
   var enemy = d3.select(this);
   var user = gameBoard.selectAll('.user');
 
   var startPos = {
-    x: startData.x,
-    y: startData.y
+    x: parseFloat(enemy.attr('x')),
+    y: parseFloat(enemy.attr('y'))
   };
 
   var endPos = {
     x: endData.x,
     y: endData.y
   };
+
+  // console.log('enemy: ', enemy);
+  // console.log('startPos: ', startPos);
+  // console.log('endPos: ', endPos);
 
   return function(t) {
     checkCollision(user, enemy, onCollision);
@@ -151,13 +158,7 @@ var renderEnemies = function(enemyData) {
       d.y = generateRandomPosition("height");
       return d.y;
     })
-    .tween('custom',
-      function(d) {
-        tweenWithCollisionDetection(
-          { x: d.oldX, y: d.oldY },
-          { x: d.x, y: d.y });
-      }
-    );
+    .tween('custom', tweenWithCollisionDetection);
 
 
     // pass in d.x and d.y as endData
