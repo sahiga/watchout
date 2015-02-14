@@ -30,8 +30,8 @@ var createEnemies = function(){
   var range = _.range(0,gameOptions.nEnemies);
 
   var enemyData = _.map(range, function(num){
-    var x = Math.random() * gameOptions.width;
-    var y = Math.random() * gameOptions.height;
+    var x = generateRandomPosition('width');
+    var y = generateRandomPosition('height');
     return new Enemy(num, x, y);
   });
 
@@ -93,6 +93,7 @@ var onCollision = function() {
 };
 
 var checkCollision = function(user, enemy, collidedCallback) {
+
   var radiusSum = parseFloat(enemy.attr('r')) + parseFloat(user.attr('r'));
   var xDiff = parseFloat(enemy.attr('x')) - parseFloat(user.attr('x'));
   var yDiff = parseFloat(enemy.attr('y')) - parseFloat(user.attr('y'));

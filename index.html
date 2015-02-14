@@ -1,19 +1,29 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Lato:300,700' rel='stylesheet' type='text/css'>
     <link rel='stylesheet' type='css' href='styles.css'>
   </head>
   <body>
     <h1 class="title">Cookie Monster Collider</h1>
     <ul class="scoreboard">
-      <li class="score-label">High score: <div id="high" class="score-number">0</div></li>
-      <li class="score-label">Current score: <div id="current" class="score-number">0</div></li>
+      <li class="score-label">
+        High Score
+        <div id="high" class="score-number">0</div>
+      </li>
+      <li class="score-label">
+        Current Score
+        <div id="current" class="score-number">0</div>
+      </li>
     </ul>
     <svg class="gameboard">
     </svg>
+    <div class="credits"> Made with &#10084; by Stephanie A. Higa and Bradley Heinz in San Francisco</div>
     <script src="d3.js" charset="utf-8"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js"></script>
-    <script src='watchout.js'></script>
+    <script src='enemies.js'></script>
+    <script src='user.js'></script>
+    <script src='gamemotion.js'></script>
+    <script src='gameinfo.js'></script>
   </body>
 </html>
