@@ -2,8 +2,12 @@ svg {
   border: 2px solid blue;
 }
 
-.enemy {
+/*.enemy {
   background: url('pugNasteroid.png');
   width: 200px;
   height: 200px;
+}*/
+
+.player {
+  fill: orange;
 }
