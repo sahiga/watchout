@@ -7,17 +7,13 @@ var gameOptions = {
 
 var gameStats = {
   score: 0,
-  bestScore: 0,
-  collisions: 0
+  bestScore: 0
+  // collisions: 0
 };
 
 var User = function(){
   this.x = gameOptions.width / 2;
   this.y = gameOptions.height / 2;
-  this.zx = 0;
-  this.zy = 0;
-  this.oldX = 0;
-  this.oldY = 0;
   this.r = 50;
 };
 
@@ -27,10 +23,6 @@ var Enemy = function(id, x, y){
   this.id = id;
   this.x = x;
   this.y = y;
-  this.zx = 0;
-  this.zy = 0;
-  this.oldX = 0;
-  this.oldY = 0;
   this.r = 50;
 };
 
@@ -95,15 +87,15 @@ var onCollision = function() {
   }
 
   gameStats.score = 0;
-  gameStats.collisions += 1;
+  // gameStats.collisions += 1;
   updateScoreDisplay();
   // updateCollisionsDisplay();
 };
 
 var checkCollision = function(user, enemy, collidedCallback) {
   var radiusSum = parseFloat(enemy.attr('r')) + parseFloat(user.attr('r'));
-  var xDiff = parseFloat(enemy.attr('zx')) - parseFloat(user.attr('x'));
-  var yDiff = parseFloat(enemy.attr('zy')) - parseFloat(user.attr('y'));
+  var xDiff = parseFloat(enemy.attr('x')) - parseFloat(user.attr('x'));
+  var yDiff = parseFloat(enemy.attr('y')) - parseFloat(user.attr('y'));
   var separation = Math.sqrt( Math.pow(xDiff, 2) + Math.pow(yDiff, 2));
 
   if (separation < radiusSum) {
@@ -149,8 +141,6 @@ var renderUser = function(userData){
       .attr('class', 'user')
       .attr('x', function(d) { return d.x; })
       .attr('y', function(d) { return d.y; })
-      .attr('zx', function(d) { return d.x + 50; })
-      .attr('zy', function(d) { return d.y + 50; })
       .attr('r', function(d) { return d.r; })
       .attr('width', 100)
       .attr('height', 100)
@@ -185,8 +175,6 @@ var renderEnemies = function(enemyData) {
       .attr('y', function(d) { return d.y; })
       .attr('x', function(d) { return d.x; })
       .attr('y', function(d) { return d.y; })
-      .attr('zx', function(d) { return d.x + 50; })
-      .attr('zy', function(d) { return d.y + 50; })
       .attr('r', function(d) { return d.r; })
       .attr('width', 100)
       .attr('height', 100)
@@ -207,7 +195,7 @@ var play = function() {
 
   setInterval(function(){
     renderEnemies(gameEnemies);
-  }, 1500);
+  }, 1000);
 
   setInterval(function(){
     increaseScore();

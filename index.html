@@ -1,17 +1,16 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
     <link rel='stylesheet' type='css' href='styles.css'>
   </head>
   <body>
-    <div class="scoreboard">
-      <!-- Modify the scoreboard when important events occur in your game! -->
-      <div>High score: <span id="high">0</span></div>
-      <div>Current score: <span id="current">0</span></div>
-      <!-- <div>Collisions: <span id="collisions">0</span></div> -->
-    </div>
+    <h1 class="title">Cookie Monster Collider</h1>
+    <ul class="scoreboard">
+      <li class="score-label">High score: <div id="high" class="score-number">0</div></li>
+      <li class="score-label">Current score: <div id="current" class="score-number">0</div></li>
+    </ul>
     <svg class="gameboard">
-
     </svg>
     <script src="d3.js" charset="utf-8"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js"></script>

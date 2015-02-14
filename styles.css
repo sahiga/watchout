@@ -1,4 +1,12 @@
+body {
+  font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  padding: 4em;
+  color: #2385c2;
+}
+
 svg {
+  display: block;
+  margin: 0 auto;
   background: url('pan.png');
   background-size: contain;
 }
@@ -7,6 +15,43 @@ svg {
   cursor: pointer;
 }
 
-.enemy {
+.scoreboard {
+  list-style: none;
+  overflow: auto;
+  zoom: 1;
+  text-align: center;
+  margin: 1em auto;
+}
 
+.score-label {
+  display: inline-block;
+  margin: 0;
+  padding: 1em 2em;
+  color: #fff;
+  text-align: center;
+  background: #2385c2;
+}
+
+.score-number {
+  font-size: 3em;
+}
+
+.score-label:first-child {
+  border-left: 1px solid #fff;
+  -webkit-border-radius: 10px 0 0 10px;
+  -moz-border-radius: 10px 0 0 10px;
+  border-radius: 10px 0 0 10px;
+}
+
+.score-label:last-child {
+  -webkit-border-radius: 0 10px 10px 0;
+  -moz-border-radius: 0 10px 10px 0;
+  border-radius: 0 10px 10px 0;
+}
+
+.title {
+  margin: 0.2em;
+  font-size: 3em;
+  text-align: center;
+  text-transform: uppercase;
 }
