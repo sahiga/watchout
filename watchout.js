@@ -5,6 +5,12 @@ var gameOptions = {
   padding: 20
 };
 
+var gameStats = {
+  score: 0,
+  bestScore: 0,
+  collisions: 0
+};
+
 var User = function(){
   this.x = gameOptions.width / 2;
   this.y = gameOptions.height / 2;
@@ -44,6 +50,20 @@ var createUser = function(){
   return [new User()];
 };
 
+// Scoreboard
+var updateScoreDisplay = function() {
+  document.getElementById('current').innerHTML = gameStats.score.toString();
+};
+
+var updateBestScoreDisplay = function() {
+  gameStats.bestScore = _.max([gameStats.bestScore, gameStats.score]);
+  document.getElementById('high').innerHTML = gameStats.bestScore.toString();
+};
+
+var updateCollisionsDisplay = function() {
+  document.getElementById('collisions').innerHTML = gameStats.collisions.toString();
+};
+
 // d3
 var gameBoard = d3.select('.gameboard').append('svg')
                       .attr('width', gameOptions.width)
@@ -64,8 +84,15 @@ var drag = d3.behavior.drag()
     d3.select(this).attr('x', d.x = d3.event.x).attr('y', d.y = d3.event.y);
   });
 
-var onCollision = function(user, enemy) {
+var onCollision = function() {
+  if (gameStats.score > gameStats.bestScore) {
+    updateBestScoreDisplay();
+  }
 
+  gameStats.score = 0;
+  gameStats.collisions += 1;
+  updateScoreDisplay();
+  updateCollisionsDisplay();
 };
 
 var checkCollision = function(user, enemy, collidedCallback) {
@@ -73,12 +100,9 @@ var checkCollision = function(user, enemy, collidedCallback) {
   var xDiff = parseFloat(enemy.attr('zx')) - parseFloat(user.attr('x'));
   var yDiff = parseFloat(enemy.attr('zy')) - parseFloat(user.attr('y'));
   var separation = Math.sqrt( Math.pow(xDiff, 2) + Math.pow(yDiff, 2));
-  // console.log('radiusSum: ', radiusSum);
-  // console.log('xDiff: ', xDiff);
-  // console.log('yDiff: ', yDiff);
-  // console.log('separation: ', separation);
+
   if (separation < radiusSum) {
-    collidedCallback(user, enemy);
+    collidedCallback();
   }
 };
 
@@ -182,13 +206,29 @@ var renderEnemies = function(enemyData) {
 
 };
 
-var gameEnemies = createEnemies();
-var gameUser = createUser();
-renderEnemies(gameEnemies);
-renderUser(gameUser);
+var increaseScore = function(){
+  gameStats.score++;
+  updateScoreDisplay();
+};
 
-setInterval(function(){
+
+var play = function() {
+
+  var gameEnemies = createEnemies();
+  var gameUser = createUser();
   renderEnemies(gameEnemies);
-}, 1500);
+  renderUser(gameUser);
 
+  setInterval(function(){
+    renderEnemies(gameEnemies);
+  }, 1500);
+
+  setInterval(function(){
+    increaseScore();
+  }, 50);
+
+
+};
+
+play();
 
